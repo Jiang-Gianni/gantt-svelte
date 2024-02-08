@@ -19,7 +19,6 @@
 	export let fullWidth;
 	export let fullHeight;
 	export let templates;
-	export let borders;
 
 	let chart = {};
 	let extraRows = 0;
@@ -111,7 +110,7 @@
 	{/if}
 
 	<div class="area" style="width:{fullWidth}px;height:{fullHeight}px">
-		<CellGrid width={cellWidth} height={cellHeight} {borders} />
+		<CellGrid width={cellWidth} height={cellHeight} />
 
 		{#if selected}
 			<div class="selection" style={selectStyle} />

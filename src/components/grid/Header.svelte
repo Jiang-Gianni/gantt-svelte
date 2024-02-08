@@ -10,7 +10,8 @@
 
 	function getCellStyle(column) {
 		const align = `text-align:${column.align}`;
-		const width = column.width === "100%" ? `flex:1` : `width:${column.width}`;
+		const width =
+			column.width === "100%" ? `flex:1` : `width:${column.width}`;
 		return `${width};${align}
 		`;
 	}
@@ -32,7 +33,7 @@
 					{#if compactMode}
 						<span class="mdi mdi-menu" on:click={showGrid} />
 					{:else}<span class="add" on:click={addTask} />{/if}
-				{:else}{_('gantt', column.label)}{/if}
+				{:else}{_("gantt", column.label)}{/if}
 			</div>
 		{/each}
 	</div>

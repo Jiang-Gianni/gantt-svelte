@@ -3,7 +3,7 @@
 	const dispatch = createEventDispatcher();
 
 	import NewLink from "./NewLink.svelte";
-	import { locate, locateID } from "@dhtmlx/trial-lib-gantt";
+	import { locate, locateID } from "../../config/locate";
 
 	export let tasks;
 	export let drag = false;
@@ -224,7 +224,7 @@
 		if (id) dispatch("action", { action: "select-task", id });
 	}
 	function getTask(id) {
-		return tasks.find(a => a.id == id);
+		return tasks.find((a) => a.id == id);
 	}
 	function taskStyle(task) {
 		return `left:${task.$x}px;top:${task.$y}px;width:${task.$w}px;height:${task.$h}px`;
@@ -251,20 +251,25 @@
 	on:touchend={touchend}
 	on:click={onClick}
 	on:dblclick={onDblClick}
-	on:dragstart={() => false}>
+	on:dragstart={() => false}
+>
 	{#each tasks as task (task.id)}
 		<div
 			class="bar {task.type || 'task'}"
 			class:touch={touched && taskMove && task.id == taskMove.id}
 			style={taskStyle(task)}
 			data-tooltip-id={task.id}
-			data-id={task.id}>
+			data-id={task.id}
+		>
 			<div class="link left" />
 
-			{#if task.type !== 'milestone'}
+			{#if task.type !== "milestone"}
 				{#if task.progress}
 					<div class="progress-wrapper">
-						<div class="progress-percent" style="width:{task.progress}%" />
+						<div
+							class="progress-percent"
+							style="width:{task.progress}%"
+						/>
 					</div>
 				{/if}
 				{#if task.textLeft}

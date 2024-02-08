@@ -1,4 +1,4 @@
-import { locate } from "@dhtmlx/trial-lib-gantt";
+import { locate } from "../../../config/locate";
 
 function getOffset(node, relative, ev) {
 	const box = node.getBoundingClientRect();

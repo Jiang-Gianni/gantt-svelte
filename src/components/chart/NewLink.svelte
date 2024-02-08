@@ -1,5 +1,5 @@
 <script>
-	import { placeLink } from "@dhtmlx/trial-lib-gantt";
+	import { placeLink } from "../../config/placeLink";
 
 	export let layer;
 	export let start;
@@ -18,7 +18,8 @@
 		class="new"
 		width={link.width}
 		height={link.height}
-		style="left:{link.left}px;top:{link.top}px;">
+		style="left:{link.left}px;top:{link.top}px;"
+	>
 		<polyline class="line" points={link.p} />
 	</svg>
 {/if}

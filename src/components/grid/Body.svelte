@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 
-	import { locateID } from "@dhtmlx/trial-lib-gantt";
+	import { locateID } from "../../config/locate";
 	import { reorder } from "./actions/reorder";
 
 	export let tasks;

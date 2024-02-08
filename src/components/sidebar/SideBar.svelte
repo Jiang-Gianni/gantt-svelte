@@ -1,6 +1,6 @@
 <script>
 	import { createEventDispatcher, getContext } from "svelte";
-	import { getDiffer, getAdder } from "@dhtmlx/trial-lib-gantt";
+	import { calculateDuration } from "../../config/columns";
 
 	import Button from "../../wx/Button.svelte";
 	import Text from "../../wx/Text.svelte";
@@ -28,12 +28,12 @@
 
 	$: {
 		const inLinks = links
-			.filter(a => a.target == task.id)
-			.map(link => ({ link, task: tasksMap[link.source] }));
+			.filter((a) => a.target == task.id)
+			.map((link) => ({ link, task: tasksMap[link.source] }));
 
 		const outLinks = links
-			.filter(a => a.source == task.id)
-			.map(link => ({ link, task: tasksMap[link.target] }));
+			.filter((a) => a.source == task.id)
+			.map((link) => ({ link, task: tasksMap[link.target] }));
 
 		linksData = [
 			{ title: _("gantt", "Predecessors"), data: inLinks },
@@ -42,7 +42,7 @@
 	}
 
 	$: {
-		task.duration = getDiffer("day")(task.end_date, task.start_date);
+		task.duration = calculateDuration(task.end_date, task.start_date);
 		dispatch("action", { action: "update-task", id: task.id, obj: task });
 	}
 
@@ -55,19 +55,19 @@
 		dispatch("action", { action: "hide-details" });
 	}
 
-	function onDurationChange(e) {
-		task.duration = e.detail.value * 1;
-		task.end_date = getAdder("day")(task.start_date, task.duration);
-	}
+	// function onDurationChange(e) {
+	// 	task.duration = e.detail.value * 1;
+	// 	task.end_date = getAdder("day")(task.start_date, task.duration);
+	// }
 </script>
 
 <div class="sidebar" class:compact={compactMode}>
 	<div class="header">
 		<div class="icon-close" on:click={hide} />
 		<div class="buttons">
-			<Button on:click={hide}>{_('gantt', 'Save')}</Button>
+			<Button on:click={hide}>{_("gantt", "Save")}</Button>
 			<Button appearance="danger" on:click={deleteTask}>
-				{_('gantt', 'Delete')}
+				{_("gantt", "Delete")}
 			</Button>
 		</div>
 	</div>
@@ -78,43 +78,52 @@
 				this={templates.sidebarForm}
 				bind:task
 				{linksData}
-				on:action />
+				on:action
+			/>
 		{:else}
 			<Text
 				autofocus={true}
-				label={_('gantt', 'Name')}
-				bind:value={task.text} />
+				label={_("gantt", "Name")}
+				bind:value={task.text}
+			/>
 
-			<Textarea label={_('gantt', 'Description')} bind:value={task.details} />
+			<Textarea
+				label={_("gantt", "Description")}
+				bind:value={task.details}
+			/>
 
 			{#if taskTypes.length > 1}
 				<Select
-					label={_('gantt', 'Type')}
+					label={_("gantt", "Type")}
 					bind:value={task.type}
-					options={taskTypes} />
+					options={taskTypes}
+				/>
 			{/if}
 
 			<DatePicker
-				label={_('gantt', 'Start Date')}
+				label={_("gantt", "Start Date")}
 				bind:value={task.start_date}
-				readonly />
+				readonly
+			/>
 
 			{#if !milestone}
 				<DatePicker
-					label={_('gantt', 'End Date')}
+					label={_("gantt", "End Date")}
 					bind:value={task.end_date}
-					readonly />
-				<Counter
-					label={_('gantt', 'Duration')}
+					readonly
+				/>
+				<!-- <Counter
+					label={_("gantt", "Duration")}
 					bind:value={task.duration}
 					min={1}
 					max={100}
-					on:change={onDurationChange} />
+					on:change={onDurationChange}
+				/> -->
 
 				<Slider
 					label="{_('gantt', 'Progress')}: {task.progress}%"
-					bind:value={task.progress} />
-
+					bind:value={task.progress}
+				/>
 			{/if}
 
 			<Links {linksData} on:action />

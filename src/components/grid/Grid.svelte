@@ -1,5 +1,6 @@
 <script>
 	import { createEventDispatcher } from "svelte";
+	import columns from "../../config/columns";
 	const dispatch = createEventDispatcher();
 
 	import Header from "./Header.svelte";
@@ -8,14 +9,13 @@
 	export let compactMode;
 	export let width;
 	export let tasks;
-	export let columns;
 	export let scales;
 	export let scrollTop;
 	export let scrollDelta;
 	export let selected;
 	export let cellHeight;
 
-	let cols;
+	let cols = columns;
 	let basis;
 	let showFull = false;
 
@@ -35,7 +35,10 @@
 
 	$: {
 		cols = compactMode
-			? [columns[columns.length - 1], ...columns.slice(0, columns.length - 1)]
+			? [
+					columns[columns.length - 1],
+					...columns.slice(0, columns.length - 1),
+				]
 			: columns;
 
 		if (!compactMode) showFull = false;
@@ -49,7 +52,8 @@
 		{compactMode}
 		columns={cols}
 		height={scales.height}
-		on:action={action} />
+		on:action={action}
+	/>
 	<Body
 		{tasks}
 		columns={cols}
@@ -57,7 +61,8 @@
 		{scrollTop}
 		{scrollDelta}
 		{selected}
-		on:action={action} />
+		on:action={action}
+	/>
 </div>
 
 <style>

@@ -16,7 +16,6 @@
 	import enLocale from "../wx/locales/en.js";
 
 	import { SvelteLocalData, SvelteLocalState } from "../state/local";
-	import { normalizeColumns } from "@dhtmlx/trial-lib-gantt";
 
 	export let templates = {};
 	export let markers = [];
@@ -27,10 +26,6 @@
 		{ unit: "month", step: 1, format: "MMMM yyy" },
 		{ unit: "day", step: 1, format: "d" },
 	];
-	export let columns = [
-		{ name: "text", label: "Task name", width: "100%" },
-		{ name: "add-task", label: "", width: "50px", align: "center" },
-	];
 	export let start = null;
 	export let end = null;
 	export let cellWidth = 100;
@@ -38,12 +33,10 @@
 	export let scaleHeight = 30;
 	export let readonly = false;
 	export let grid = true;
-	export let tooltip = null;
-	export let borders = "full";
 
 	if (!getContext("wx-i18n")) setContext("wx-i18n", enLocale());
 
-	let tasksData, linksData, scalesData, columnsData, renderTasks, markersData;
+	let tasksData, linksData, scalesData, renderTasks, markersData;
 	let noDrag, noEdit, noNewLink;
 
 	let fullWidth, fullHeight;
@@ -104,10 +97,6 @@
 	const actions = (ev) => stateActions(ev.detail);
 
 	$: {
-		columnsData = normalizeColumns(columns);
-	}
-
-	$: {
 		const { start, diff } = $scalesData;
 		markersData = markers.map((marker) => {
 			marker.left = diff(marker.start, start) * cellWidth;
@@ -141,7 +130,6 @@
 			{compactMode}
 			width={gridWidth}
 			tasks={renderTasks}
-			columns={columnsData}
 			scales={$scalesData}
 			scrollTop={$scrollTop}
 			scrollDelta={$from}
@@ -168,7 +156,6 @@
 			{fullWidth}
 			{fullHeight}
 			{templates}
-			{borders}
 			on:action={actions}
 		/>
 	</div>
